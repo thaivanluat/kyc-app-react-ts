@@ -1,0 +1,202 @@
+{
+  "users": [
+    {
+      "role": "officier",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "id": 1,
+      "first_name": "admin",
+      "middle_name": "_",
+      "last_name": "_",
+      "date_of_birth": "01/01/2000",
+      "address": [
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street 1",
+          "type": "Mailing"
+        },
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street B",
+          "type": "Work"
+        }
+      ],
+      "contact_information": {
+        "emails": [
+          {
+            "email": "admin@gmail.com",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "email": "admin2@gmail.com",
+            "type": "Personal",
+            "proffered": false
+          }
+        ],
+        "phones": [
+          {
+            "number": "022-222-222",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "number": "021-222-222",
+            "type": "Personal",
+            "proffered": false
+          }
+        ]
+      },
+      "id_document": {
+        "ID": "id.pdf",
+        "driver_license": "driver_license.pdf"
+      },
+      "employment_infomation": [
+        {
+          "name": "Officier",
+          "from_year": "2020",
+          "to_year": "2023"
+        },
+        {
+          "name": "Officier_2",
+          "from_year": "2023",
+          "to_year": "2024"
+        }
+      ]
+    },
+    {
+      "role": "normal",
+      "email": "user@gmail.com",
+      "password": "123456",
+      "id": 2,
+      "first_name": "Alex",
+      "middle_name": "_",
+      "last_name": "_",
+      "date_of_birth": "01/01/2000",
+      "address": [
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street AA",
+          "type": "Mailing"
+        },
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street CC",
+          "type": "Work"
+        }
+      ],
+      "contact_information": {
+        "emails": [
+          {
+            "email": "normal@gmail.com",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "email": "normal2@gmail.com",
+            "type": "Personal",
+            "proffered": false
+          }
+        ],
+        "phones": [
+          {
+            "number": "024-222-222",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "number": "021-222-222",
+            "type": "Personal",
+            "proffered": false
+          }
+        ]
+      },
+      "id_document": {
+        "ID": "id.pdf",
+        "driver_license": "driver_license.pdf"
+      },
+      "employment_infomation": [
+        {
+          "name": "Teacher",
+          "from_year": "2020",
+          "to_year": "2023"
+        },
+        {
+          "name": "Teacher_2",
+          "from_year": "2023",
+          "to_year": "2024"
+        }
+      ]
+    },
+    {
+      "role": "normal2",
+      "email": "user2@gmail.com",
+      "password": "123456",
+      "id": 3,
+      "first_name": "Morgan",
+      "middle_name": "_",
+      "last_name": "_",
+      "date_of_birth": "01/01/2000",
+      "address": [
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street AA",
+          "type": "Mailing"
+        },
+        {
+          "country": "USA",
+          "city": "New York",
+          "street": "Street CC",
+          "type": "Work"
+        }
+      ],
+      "contact_information": {
+        "emails": [
+          {
+            "email": "normal@gmail.com",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "email": "normal2@gmail.com",
+            "type": "Personal",
+            "proffered": false
+          }
+        ],
+        "phones": [
+          {
+            "number": "024-222-222",
+            "type": "Work",
+            "proffered": true
+          },
+          {
+            "number": "021-222-222",
+            "type": "Personal",
+            "proffered": false
+          }
+        ]
+      },
+      "id_document": {
+        "ID": "id.pdf",
+        "driver_license": "driver_license.pdf"
+      },
+      "employment_infomation": [
+        {
+          "name": "Teacher",
+          "from_year": "2020",
+          "to_year": "2023"
+        },
+        {
+          "name": "Teacher_2",
+          "from_year": "2023",
+          "to_year": "2024"
+        }
+      ]
+    }
+  ]
+}

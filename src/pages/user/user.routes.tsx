@@ -2,6 +2,8 @@ import {RouteObject} from "react-router";
 import PersonalInformation from "./personal-information/personal-information";
 import UserKYC from "./kyc/kyc";
 import User from "./user";
+import PendingReview from "./review/pending-review";
+import CompletedReview from "./review/completed-review";
 
 const userRoutes: RouteObject[] = [
     {
@@ -15,6 +17,14 @@ const userRoutes: RouteObject[] = [
             {
                 path: ':id/kyc',
                 element: <UserKYC></UserKYC>
+            },
+            {
+                path: 'pending-review',
+                element: <PendingReview></PendingReview>
+            },
+            {
+                path: 'completed-review',
+                element: <CompletedReview></CompletedReview>
             }
         ]
     }
