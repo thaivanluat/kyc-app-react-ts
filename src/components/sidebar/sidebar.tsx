@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import React, { ReactElement } from "react";
 import { useAuth } from "../../shared/context/Authenticated";
 interface MenuItem {
@@ -6,15 +6,11 @@ interface MenuItem {
     url: string;
 }
 const Sidebar = () => {
-    const { user } = useAuth();
     const menuItems: MenuItem[] = [
+
         {
-            name: 'Home',
-            url: "/"
-        },
-        {
-            name: `Profile`,
-            url: `user/${user?.id}/pi`,
+            name: `User`,
+            url: `user/`,
         },
         {
             name: `Pending Review`,
@@ -38,10 +34,17 @@ const Sidebar = () => {
                             {
                                 menuItems.map((item: any, index: any) => (
                                     <li key={index}>
-                                        <Link to={item.url}
-                                            className={`flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700`}>
+                                        <NavLink
+                                            end
+                                            to={item.url}
+                                            className={({ isActive }) => {
+                                                return `hover:font-bold flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ${isActive ? 'font-bold' : ''}`
+                                            }
+                                            }
+
+                                        >
                                             <span className="ml-3" sidebar-toggle-item="">{item.name}</span>
-                                        </Link>
+                                        </NavLink>
                                     </li>
                                 ))
                             }

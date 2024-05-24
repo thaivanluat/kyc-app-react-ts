@@ -1,6 +1,6 @@
-export type Role = {
-    OFFICER: 'OFFICER',
-    NORMAL_USER: 'NORMAL_USER'
+export enum Role {
+    OFFICER = 'officier',
+    NORMAL_USER = 'normal'
 }
 
 export enum AddressType {
@@ -22,7 +22,7 @@ export enum ContactType {
 
 export interface Email {
     email: string;
-    type: ContactType;
+    type: string;
     proffered: boolean;
 }
 
@@ -34,24 +34,32 @@ export interface Phone {
 
 export interface IdentificationDocument {
     id: File;
-    driverLicense: File;
+    driver_license: File;
 }
 
 export interface Employment {
     name: string;
-    fromYear: number;
-    toYear?: number;
+    from_year: number|string;
+    to_year?: number|string;
 }
 
-export interface UserData {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-    dateOfBirth: string; // DD/MM/YYYY format
-    age: number; // Calculated
+export interface ContractInformation {
+    emails: Email[],
+    phones: Phone[]
+}
+
+export interface User {
+    email: string,
+    password: string,
+    id: number,
+    role: Role,
+    first_name: string;
+    middle_name?: string;
+    last_name: string;
+    date_of_birth: string; // DD/MM/YYYY format
+    age?: number; // Calculated
     address: Address[];
-    emails: Email[];
-    phones: Phone[];
-    identificationDocuments: IdentificationDocument[];
-    employment: Employment[];
+    contact_information: ContractInformation,
+    id_document: IdentificationDocument;
+    employment_information: Employment[];
 }

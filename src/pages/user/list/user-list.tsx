@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
+import { User } from "../../../shared/interfaces/user.interface";
 import { useAppContext } from "../../../shared/hook/useAppContext";
-import { Review, ReviewStatus } from "../../../shared/interfaces/review.interface";
-import { formatCurrency } from "../../../shared/utilities/formatCurrentcy";
 
-const CompletedReview = () => {
-    const appContext = useAppContext();
-    const reviews = appContext.getReviews().filter((review: Review) =>
-        review.status != ReviewStatus.Pending
-    )
+const UserList = () => {
+    let users = useAppContext().getUsers();
+
+    const getFullName = (user: any) => {
+        return `${user.first_name} ${user.middle_name || ''} ${user.last_name}`;
+      };
+
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">
             <div className="mb-4 col-span-full xl:mb-2">
@@ -44,12 +46,12 @@ const CompletedReview = () => {
                                         clipRule="evenodd"></path>
                                 </svg>
                                 <span className="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
-                                    aria-current="page">Completed Review</span>
+                                    aria-current="page">User List</span>
                             </div>
                         </li>
                     </ol>
                 </nav>
-                <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Completed Review</h1>
+                <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">User List</h1>
             </div>
             <div
                 className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
@@ -57,33 +59,25 @@ const CompletedReview = () => {
                     <thead className="text-left bg-gray-200">
                         <tr>
                             <th className="px-4 py-2 font-medium text-gray-700">ID</th>
-                            <th className="px-4 py-2 font-medium text-gray-700">Date</th>
-                            <th className="px-4 py-2 font-medium text-gray-700">Amount</th>
-                            <th className="px-4 py-2 font-medium text-gray-700">Final Status</th>
+                            <th className="px-4 py-2 font-medium text-gray-700">Email</th>
+                            <th className="px-4 py-2 font-medium text-gray-700">Full Name</th>
+                            <th className="px-4 py-2 font-medium text-gray-700">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {reviews.map((review, index) => (
+                        {users.map((user, index) => (
                             <tr key={index}>
-                                <td className="px-4 py-2 text-gray-700">{review.id}</td>
-                                <td className="px-4 py-2 text-gray-700">{review.date}</td>
-                                <td className="px-4 py-2 text-gray-700">{formatCurrency(review.financial_status.net_worth)}</td>
-                                {review.status != ReviewStatus.Approved
-                                    ? (
-                                        <td className="px-4 py-2">
-                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white bg-green-500">
-                                                Approved
-                                            </span>
-                                        </td>
-                                    )
-                                    : (
-                                        <td className="px-4 py-2">
-                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white bg-red-500">
-                                                Rejected
-                                            </span>
-                                        </td>
-                                    )
-                                }
+                                <td className="px-4 py-2 text-gray-700">{user.id}</td>
+                                <td className="px-4 py-2 text-gray-700">{user.email}</td>
+                                <td className="px-4 py-2 text-gray-700">{getFullName(user)}</td>
+
+                                <td className="px-4 py-2">
+                                    <Link to={`/pages/user/${user.id}/pi`}>
+                                        <button className="inline-flex items-center px-3 py-2 rounded-full text-xs font-medium text-white bg-green-500 hover:bg-green-700">
+                                            Select
+                                        </button>
+                                    </Link>
+                                </td>
                             </tr>))}
                     </tbody>
                 </table>
@@ -92,4 +86,4 @@ const CompletedReview = () => {
     )
 }
 
-export default CompletedReview;
+export default UserList;

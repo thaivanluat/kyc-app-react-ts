@@ -1,4 +1,4 @@
-import { UserData } from "./user.interface";
+import { User } from "./user.interface";
 
 export enum IncomeType {
     Salary = "Salary",
@@ -39,7 +39,7 @@ export enum RiskTolerance {
 export interface FinancialStatus {
     incomes: {
         type: IncomeType;
-        amount: number; 
+        amount: number;
     }[];
     assets: {
         type: AssetType;
@@ -47,17 +47,15 @@ export interface FinancialStatus {
     }[];
     liabilities: {
         type: LiabilityType;
-        amount: number; 
+        amount: number;
     }[];
-    sourceOfFunds: {
+    source_of_funds: {
         type: SourceOfType;
-        amount: number; 
+        amount: number;
     }[];
-    netWorth: number; // Calculated
-    investmentExperience: {
-        financialMarketsExperience: Experience;
-        riskTolerance: RiskTolerance;
-    };
+    net_worth: number; // Calculated
+    experience: Experience;
+    risk_tolerance: RiskTolerance;
 }
 
 export enum ReviewStatus {
@@ -68,8 +66,9 @@ export enum ReviewStatus {
 
 
 export interface Review {
-    user: UserData,
-    financialStatus: FinancialStatus,
+    id: string,
+    user: User,
+    financial_status: FinancialStatus,
     name: string,
     date: string; // DD/MM/YYYY format
     status: ReviewStatus

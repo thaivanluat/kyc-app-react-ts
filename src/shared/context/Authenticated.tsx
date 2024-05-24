@@ -34,7 +34,6 @@ const AuthenticatedProvider = ({ children }: { children: ReactElement }) => {
     const logout = () => {
         localStorage.removeItem('user');
         setUser(null);
-
     };
 
     return (

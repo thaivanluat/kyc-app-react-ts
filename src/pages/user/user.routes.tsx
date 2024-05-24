@@ -4,12 +4,17 @@ import UserKYC from "./kyc/kyc";
 import User from "./user";
 import PendingReview from "./review/pending-review";
 import CompletedReview from "./review/completed-review";
+import UserList from "./list/user-list";
 
 const userRoutes: RouteObject[] = [
     {
         path: 'user',
         element: <User/>,
         children: [
+            {
+                path: '',
+                element: <UserList/>
+            },
             {
                 path: ':id/pi',
                 element: <PersonalInformation/>

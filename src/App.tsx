@@ -3,11 +3,14 @@ import './App.css';
 import {RouterProvider, } from "react-router";
 import appRouter from "./app.router";
 import {AuthenticatedProvider} from "./shared/context/Authenticated";
+import { AppContextProvider } from './shared/context/AppContext';
 
 function App() {
     return (
         <AuthenticatedProvider>
-            <RouterProvider router={appRouter} />
+            <AppContextProvider>
+                <RouterProvider router={appRouter} />
+            </AppContextProvider>
         </AuthenticatedProvider>
     )
 }

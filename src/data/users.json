@@ -50,10 +50,10 @@
         ]
       },
       "id_document": {
-        "ID": "id.pdf",
+        "id": "id.pdf",
         "driver_license": "driver_license.pdf"
       },
-      "employment_infomation": [
+      "employment_information": [
         {
           "name": "Officier",
           "from_year": "2020",
@@ -72,9 +72,9 @@
       "password": "123456",
       "id": 2,
       "first_name": "Alex",
-      "middle_name": "_",
-      "last_name": "_",
-      "date_of_birth": "01/01/2000",
+      "middle_name": "Duo",
+      "last_name": "Black",
+      "date_of_birth": "01/01/2000 ",
       "address": [
         {
           "country": "USA",
@@ -116,10 +116,10 @@
         ]
       },
       "id_document": {
-        "ID": "id.pdf",
+        "id": "id.pdf",
         "driver_license": "driver_license.pdf"
       },
-      "employment_infomation": [
+      "employment_information": [
         {
           "name": "Teacher",
           "from_year": "2020",
@@ -138,9 +138,9 @@
       "password": "123456",
       "id": 3,
       "first_name": "Morgan",
-      "middle_name": "_",
-      "last_name": "_",
-      "date_of_birth": "01/01/2000",
+      "middle_name": "John",
+      "last_name": "White",
+      "date_of_birth": "01/01/2000 ",
       "address": [
         {
           "country": "USA",
@@ -182,10 +182,10 @@
         ]
       },
       "id_document": {
-        "ID": "id.pdf",
+        "id": "id.pdf",
         "driver_license": "driver_license.pdf"
       },
-      "employment_infomation": [
+      "employment_information": [
         {
           "name": "Teacher",
           "from_year": "2020",

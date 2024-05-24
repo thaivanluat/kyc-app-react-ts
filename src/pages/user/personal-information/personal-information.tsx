@@ -1,4 +1,24 @@
+import { useParams } from "react-router";
+import NotFound from "../../common/not-found";
+import { useAppContext } from "../../../shared/hook/useAppContext";
+import EditUserForm from "../../../components/form/user-form";
+import { useState } from "react";
+
+interface IFormInput {
+    firstName: string
+    lastName: string
+    iceCreamType: { label: string; value: string }
+}
+
 const PersonalInformation = () => {
+    let { id } = useParams();
+    let user = useAppContext().getUserById(id)
+    let [editMode, setEditMode] = useState(true);
+
+    if (!user) {
+        return (<NotFound></NotFound>)
+    }
+
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">
             <div className="mb-4 col-span-full xl:mb-2">
@@ -75,113 +95,157 @@ const PersonalInformation = () => {
             </div>
             <div
                 className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+                <EditUserForm user={user} onChangeEditMode={setEditMode} disabled={editMode} showButton={true} />
+            </div>
+            {/* <div
+                className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                 <h3 className="mb-4 text-xl font-semibold dark:text-white">General information</h3>
-                <form>
-                    <fieldset disabled={true}>
-                        <div className="grid grid-cols-6 gap-6">
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="first-name"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                    Name</label>
-                                <input type="text" name="first-name" id="first-name"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Bonnie" required />
+                <form className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg" onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">First Name</label>
+                        <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Middle Name</label>
+                        <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Last Name</label>
+                        <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Date of Birth</label>
+                        <input type="date" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value={dob} onChange={handleDobChange} required />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Age</label>
+                        <input type="number" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value={age} disabled />
+                    </div>
+
+                    <div className="mb-4">
+                        <button type="button" className="px-4 py-2 bg-blue-500 text-white rounded" onClick={addAddress}>Add Address</button>
+                    </div>
+
+                    {addresses.map((address, index) => (
+                        <div key={index} className="mb-4 p-4 border rounded-md">
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Country</label>
+                                <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
                             </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="last-name"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                    Name</label>
-                                <input type="text" name="last-name" id="last-name"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Green" required />
+                            <div className="mb-2">
+                                <label className="block text-gray-700">City</label>
+                                <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
                             </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="country"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-                                <input type="text" name="country" id="country"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="United States" required />
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Street</label>
+                                <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
                             </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="city"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-                                <input type="text" name="city" id="city"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="e.g. San Francisco" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="address"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                <input type="text" name="address" id="address"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="e.g. California" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="email"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input type="email" name="email" id="email"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="example@company.com" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="phone-number"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
-                                    Number</label>
-                                <input type="number" name="phone-number" id="phone-number"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="e.g. +(12)3456 789" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="birthday"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
-                                <input type="number" name="birthday" id="birthday"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="15/08/1990" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="organization"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Organization</label>
-                                <input type="text" name="organization" id="organization"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Company Name" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="role"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-                                <input type="text" name="role" id="role"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="React Developer" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="department"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                                <input type="text" name="department" id="department"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Development" required />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="zip-code"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zip/postal
-                                    code</label>
-                                <input type="number" name="zip-code" id="zip-code"
-                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="123456" required />
-                            </div>
-                            <div className="col-span-6 sm:col-full">
-                                <button
-                                    className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                    type="submit">Edit
-                                </button>
-                                <button
-                                    className="ml-1 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                    type="submit">KYC
-                                </button>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Type</label>
+                                <div>
+                                    <label className="inline-flex items-center">
+                                        <input type="radio" name={`addressType-${index}`} className="form-radio" value="Mailing" defaultChecked />
+                                        <span className="ml-2">Mailing</span>
+                                    </label>
+                                    <label className="inline-flex items-center ml-4">
+                                        <input type="radio" name={`addressType-${index}`} className="form-radio" value="Work" />
+                                        <span className="ml-2">Work</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </fieldset>
+                    ))}
 
+                    <div className="mb-4">
+                        <button type="button" className="px-4 py-2 bg-green-500 text-white rounded" onClick={addContact}>Add Contact Information</button>
+                    </div>
+
+                    {contacts.map((contact, index) => (
+                        <div key={index} className="mb-4 p-4 border rounded-md">
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Email</label>
+                                <input type="email" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Email Type</label>
+                                <div>
+                                    <label className="inline-flex items-center">
+                                        <input type="radio" name={`emailType-${index}`} className="form-radio" value="Work" defaultChecked />
+                                        <span className="ml-2">Work</span>
+                                    </label>
+                                    <label className="inline-flex items-center ml-4">
+                                        <input type="radio" name={`emailType-${index}`} className="form-radio" value="Personal" />
+                                        <span className="ml-2">Personal</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Phone</label>
+                                <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Phone Type</label>
+                                <div>
+                                    <label className="inline-flex items-center">
+                                        <input type="radio" name={`phoneType-${index}`} className="form-radio" value="Work" defaultChecked />
+                                        <span className="ml-2">Work</span>
+                                    </label>
+                                    <label className="inline-flex items-center ml-4">
+                                        <input type="radio" name={`phoneType-${index}`} className="form-radio" value="Personal" />
+                                        <span className="ml-2">Personal</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="mb-4">
+                        <button type="button" className="px-4 py-2 bg-purple-500 text-white rounded" onClick={addDocument}>Add Identification Document</button>
+                    </div>
+
+                    {documents.map((document, index) => (
+                        <div key={index} className="mb-4 p-4 border rounded-md">
+                            <div className="mb-2">
+                                <label className="block text-gray-700">ID Document</label>
+                                <input type="file" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Driver License</label>
+                                <input type="file" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="mb-4">
+                        <button type="button" className="px-4 py-2 bg-teal-500 text-white rounded" onClick={addEmployment}>Add Employment Information</button>
+                    </div>
+
+                    {employments.map((employment, index) => (
+                        <div key={index} className="mb-4 p-4 border rounded-md">
+                            <div className="mb-2">
+                                <label className="block text-gray-700">Job Title</label>
+                                <input type="text" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">From Year</label>
+                                <input type="number" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                            <div className="mb-2">
+                                <label className="block text-gray-700">To Year</label>
+                                <input type="number" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required />
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="mb-4">
+                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">Submit</button>
+                    </div>
                 </form>
-            </div>
+            </div> */}
         </div>
     )
 }
