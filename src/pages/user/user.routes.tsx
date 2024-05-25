@@ -5,6 +5,7 @@ import User from "./user";
 import PendingReview from "./review/pending-review";
 import CompletedReview from "./review/completed-review";
 import UserList from "./list/user-list";
+import ProtectedRoute from "../ProtectedRoute";
 
 const userRoutes: RouteObject[] = [
     {

@@ -2,9 +2,10 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { Role, User } from "../interfaces/user.interface";
 import usersData from '../../data/users.json';
 import reviewData from '../../data/reviews.json'
-import { Review } from "../interfaces/review.interface";
+import { Review, ReviewStatus } from "../interfaces/review.interface";
 import { AppContext } from "../hook/useAppContext";
 import { useLocalStorage } from "../hook/useLocalStorage";
+import { v4 as uuidv4 } from 'uuid';
 
 interface AppContextProp {
     users: User[];
@@ -21,6 +22,7 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
             localStorage.setItem('users', JSON.stringify(userJson));
             localStorage.setItem('reviews', JSON.stringify(reviewJson));
+            console.log("init data for localstorage");
         };
 
         loadData();
@@ -63,11 +65,49 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
     }
 
     function updateReview(data: any) {
-        
+
+    }
+
+    function getCurrentDate() {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const yyyy = today.getFullYear();
+        return dd + '/' + mm + '/' + yyyy;
     }
 
     function createReview(data: any) {
-        console.log(data);
+        const newReview = {
+            id: uuidv4(),
+            user: users.find(user => user.id == data.userId),
+            date: getCurrentDate(),
+            status: ReviewStatus.Pending,
+            financial_status: data.financial_status
+        }
+        reviews.push(newReview);
+        setReviews(reviews);
+    }
+
+    function approveReview(reviewId: any) {
+        setReviews(reviews.map(review => {
+            if (review.id === reviewId) {
+                review.status = ReviewStatus.Approved
+                return review
+            } else {
+                return review;
+            }
+        }));
+    }
+
+    function rejectReview(reviewId: any) {
+        setReviews(reviews.map(review => {
+            if (review.id === reviewId) {
+                review.status = ReviewStatus.Rejected
+                return review
+            } else {
+                return review;
+            }
+        }));
     }
 
     return (
@@ -80,7 +120,9 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
             updateUser,
             getReviewById,
             updateReview,
-            createReview
+            createReview,
+            approveReview,
+            rejectReview
         }}>{children}</AppContext.Provider>
     );
 }

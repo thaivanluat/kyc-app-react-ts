@@ -8,6 +8,14 @@ const PendingReview = () => {
     const reviews = appContext.getReviews().filter((review: Review) =>
         review.status == ReviewStatus.Pending
     )
+    function handleApproveReview(reviewId: any) {
+        appContext.approveReview(reviewId)
+    }
+
+    function handleRejectReview(reviewId: any) {
+        appContext.rejectReview(reviewId)
+    }
+
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">
             <div className="mb-4 col-span-full xl:mb-2">
@@ -71,10 +79,15 @@ const PendingReview = () => {
                                 <td className="px-4 py-2 text-gray-700">{formatCurrency(review.financial_status.net_worth)}</td>
 
                                 <td className="px-4 py-2 flex space-x-2">
-                                    <button type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
+                                    <button 
+                                    onClick={() => handleApproveReview(review.id)}
+                                    type="button" 
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                                         Approve
                                     </button>
-                                    <button type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
+                                    <button 
+                                    onClick={() => handleRejectReview(review.id)}
+                                    type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
                                         Reject
                                     </button>
                                 </td>

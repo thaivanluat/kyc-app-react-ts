@@ -7,7 +7,7 @@ const UserList = () => {
 
     const getFullName = (user: any) => {
         return `${user.first_name} ${user.middle_name || ''} ${user.last_name}`;
-      };
+    };
 
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">

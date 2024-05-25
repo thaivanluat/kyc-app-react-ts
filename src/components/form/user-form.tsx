@@ -1,7 +1,7 @@
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormControlLabel, Checkbox } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
-import { User } from "../../shared/interfaces/user.interface";
+import { Role, User } from "../../shared/interfaces/user.interface";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../shared/hook/useAppContext";
 
@@ -138,11 +138,13 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
                                 type="submit">Save
                             </button>
                         )}
-                        <button
-                            onClick={() => navigate(`/pages/user/${user.id}/kyc`)}
-                            type="button"
-                            className="ml-1 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">KYC
-                        </button>
+                        {user.role === Role.NORMAL_USER && (
+                            <button
+                                onClick={() => navigate(`/pages/user/${user.id}/kyc`)}
+                                type="button"
+                                className="ml-1 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">KYC
+                            </button>
+                        )}
                     </div>
                 )}
                 <div className="hidden">
@@ -553,11 +555,14 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
                                     type="submit">Save
                                 </button>
                             )}
-                            <button
-                                onClick={() => navigate(`/pages/user/${user.id}/kyc`)}
-                                type="button"
-                                className="ml-1 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">KYC
-                            </button>
+                            {user.role === Role.NORMAL_USER && (
+                                <button
+                                    onClick={() => navigate(`/pages/user/${user.id}/kyc`)}
+                                    type="button"
+                                    className="ml-1 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">KYC
+                                </button>
+                            )}
+
                         </div>
                     )}
 

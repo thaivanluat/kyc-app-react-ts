@@ -5,7 +5,7 @@ import { useAppContext } from "../../../shared/hook/useAppContext";
 import KYCForm from "../../../components/form/kyc-form";
 import { Role } from "../../../shared/interfaces/user.interface";
 
-const UserKYC = () => {
+const ReviewDetail = () => {
 
     let { id } = useParams();
     let user = useAppContext().getUserById(id)
@@ -102,4 +102,4 @@ const UserKYC = () => {
     )
 }
 
-export default UserKYC;
+export default ReviewDetail;

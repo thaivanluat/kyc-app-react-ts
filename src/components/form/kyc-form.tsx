@@ -1,6 +1,6 @@
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormControlLabel, Checkbox, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { useForm, SubmitHandler, useFieldArray, Controller } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { User } from "../../shared/interfaces/user.interface";
 import { useNavigate } from "react-router-dom";
 import { AssetType, Experience, IncomeType, LiabilityType, RiskTolerance, SourceOfType } from "../../shared/interfaces/review.interface";
@@ -25,6 +25,7 @@ interface IFormInput {
     }[],
     experience: Experience;
     risk_tolerance: RiskTolerance;
+    net_worth: number;
 }
 
 type Props = {
@@ -37,14 +38,15 @@ const KYCForm = ({ user, disabled = false }: Props) => {
     const navigate = useNavigate();
     const appContext = useAppContext();
 
-    const { register, handleSubmit, control, formState: { errors }, setValue } = useForm<IFormInput>({
+    const { register, handleSubmit, control, formState: { errors }, setValue, watch } = useForm<IFormInput>({
         defaultValues: {
             incomes: [{ type: IncomeType.Salary, amount: '0' }],
             assets: [{ type: AssetType.Bond, amount: '0' }],
             liabilities: [{ type: LiabilityType.PersonalLoan, amount: '0' }],
             source_of_funds: [{ type: SourceOfType.Inheritance, amount: '0' }],
             experience: Experience.LessThan5Years,
-            risk_tolerance: RiskTolerance.TenPercent
+            risk_tolerance: RiskTolerance.TenPercent,
+            net_worth: 0,
         },
     });
 
@@ -78,12 +80,25 @@ const KYCForm = ({ user, disabled = false }: Props) => {
 
         appContext.createReview({
             userId: user.id,
-            review: data
+            financial_status: data
         })
         navigate(`/pages/user/pending-review`)
     }
 
+    const incomes = useWatch({ control, name: "incomes" });
+    const assets = useWatch({ control, name: "assets" });
+    const liabilities = useWatch({ control, name: "liabilities" });
+    const source_of_funds = useWatch({ control, name: "source_of_funds" });
+
     useEffect(() => {
+
+        const totalIncome = incomes.reduce((acc, curr) => acc + Number(curr.amount), 0);
+        const totalAssets = assets.reduce((acc, curr) => acc + Number(curr.amount), 0);
+        const totalLiabilities = liabilities.reduce((acc, curr) => acc + Number(curr.amount), 0);
+        const totalFunds = source_of_funds.reduce((acc, curr) => acc + Number(curr.amount), 0);
+
+        const netWorth = totalIncome + totalAssets + totalFunds + totalLiabilities;
+        setValue("net_worth", netWorth);
         // const fields = [
         //     'first_name',
         //     'last_name',
@@ -95,7 +110,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
         // if (user.address) {
         //     setValue("addresses", user.address);
         // }
-    }, [user, setValue]);
+    }, [incomes, assets, liabilities, source_of_funds, setValue]);
 
     return (
         <>
@@ -160,7 +175,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendIncome({ type: '', amount: '0' })}
+                                onClick={() => appendIncome({ type: IncomeType.Salary, amount: '0' })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -230,7 +245,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendAsset({ type: '', amount: '0' })}
+                                onClick={() => appendAsset({ type: AssetType.Bond, amount: '0' })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -299,7 +314,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendLiability({ type: '', amount: '0' })}
+                                onClick={() => appendLiability({ type: LiabilityType.PersonalLoan, amount: '0' })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -367,7 +382,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendSourceOfFund({ type: '', amount: '0' })}
+                                onClick={() => appendSourceOfFund({ type: SourceOfType.Inheritance, amount: '0' })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -376,6 +391,22 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                         </div>
                     </div>
 
+                    <div className="col-span-6 border border-gray-300 p-4 mb-4 rounded">
+                        <h3 className="mb-4 text-xl font-semibold dark:text-white">Investment Experience and Objectives</h3>
+                        <div className="col-span-6 border border-gray-300 p-4 mb-4 rounded">
+                            <TextField
+                                {...register('net_worth')}
+                                label="Net Worth"
+                                margin="normal"
+                                fullWidth
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                disabled
+                            />
+
+                        </div>
+                    </div>
                     <div className="col-span-6 border border-gray-300 p-4 mb-4 rounded">
                         <h3 className="mb-4 text-xl font-semibold dark:text-white">Investment Experience and Objectives</h3>
                         <div className="col-span-6 border border-gray-300 p-4 mb-4 rounded">

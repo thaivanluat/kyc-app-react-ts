@@ -11,7 +11,9 @@ type AppContext = {
     getReviews: () => Review[],
     getReviewById: (id: number|string) => Review |undefined,
     updateReview: (data: any) => void,
-    createReview: (data: any) => void
+    createReview: (data: any) => void,
+    approveReview: (reviewId: any) => void,
+    rejectReview: (reviewId: any) => void
 }
 
 export const AppContext = createContext({} as AppContext)

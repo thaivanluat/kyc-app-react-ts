@@ -80,6 +80,18 @@ const Login = () => {
                         Forgot password? <Link to='/auth/sign-up' className="text-primary-700 hover:underline dark:text-primary-500">Sign-up</Link>
                     </div>
                 </form>
+
+                <div className="user-data">
+                    <strong>Sample data</strong>
+                    <br />
+                    <b>Officier</b>
+                    <p>Email: admin@gmail.com</p>
+                    <p>Password: 123456</p>
+                    <hr />
+                    <b>Normal User</b>
+                    <p>Email: user@gmail.com</p>
+                    <p>Password: 123456</p>
+                </div>
             </div>
         </div>
     )

@@ -2,7 +2,6 @@ import Header from "../components/header/header";
 import Sidebar from "../components/sidebar/sidebar";
 import {Outlet} from "react-router";
 import Footer from "../components/footer/footer";
-import React, {useContext} from "react";
 import {AuthenticatedContext, useAuth} from "../shared/context/Authenticated";
 import Login from "./auth/login/Login";
 const Pages = () => {

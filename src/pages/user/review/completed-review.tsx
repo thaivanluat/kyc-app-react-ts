@@ -68,7 +68,7 @@ const CompletedReview = () => {
                                 <td className="px-4 py-2 text-gray-700">{review.id}</td>
                                 <td className="px-4 py-2 text-gray-700">{review.date}</td>
                                 <td className="px-4 py-2 text-gray-700">{formatCurrency(review.financial_status.net_worth)}</td>
-                                {review.status != ReviewStatus.Approved
+                                {review.status == ReviewStatus.Approved
                                     ? (
                                         <td className="px-4 py-2">
                                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white bg-green-500">
