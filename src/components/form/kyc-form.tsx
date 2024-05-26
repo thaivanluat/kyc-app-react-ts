@@ -1,27 +1,27 @@
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, FormControlLabel, Checkbox, FormLabel, Radio, RadioGroup } from "@mui/material";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { User } from "../../shared/interfaces/user.interface";
 import { useNavigate } from "react-router-dom";
-import { AssetType, Experience, IncomeType, LiabilityType, RiskTolerance, SourceOfType } from "../../shared/interfaces/review.interface";
+import { AssetType, Experience, IncomeType, LiabilityType, Review, RiskTolerance, SourceOfType } from "../../shared/interfaces/review.interface";
 import { useAppContext } from "../../shared/hook/useAppContext";
 
 interface IFormInput {
     incomes: {
         type: string,
-        amount: string
+        amount: number
     }[];
     assets: {
         type: string,
-        amount: string
+        amount: number
     }[];
     liabilities: {
         type: string,
-        amount: string
+        amount: number
     }[];
     source_of_funds: {
         type: string,
-        amount: string
+        amount: number
     }[],
     experience: Experience;
     risk_tolerance: RiskTolerance;
@@ -29,24 +29,25 @@ interface IFormInput {
 }
 
 type Props = {
+    review?: Review;
     user: User;
     disabled?: boolean;
 }
 
 
-const KYCForm = ({ user, disabled = false }: Props) => {
+const KYCForm = ({ user, review, disabled = false }: Props) => {
     const navigate = useNavigate();
     const appContext = useAppContext();
 
     const { register, handleSubmit, control, formState: { errors }, setValue, watch } = useForm<IFormInput>({
         defaultValues: {
-            incomes: [{ type: IncomeType.Salary, amount: '0' }],
-            assets: [{ type: AssetType.Bond, amount: '0' }],
-            liabilities: [{ type: LiabilityType.PersonalLoan, amount: '0' }],
-            source_of_funds: [{ type: SourceOfType.Inheritance, amount: '0' }],
-            experience: Experience.LessThan5Years,
-            risk_tolerance: RiskTolerance.TenPercent,
-            net_worth: 0,
+            incomes: review?.financial_status.incomes || [{ type: IncomeType.Salary, amount: 0 }],
+            assets: review?.financial_status.assets || [{ type: AssetType.Bond, amount: 0 }],
+            liabilities: review?.financial_status.liabilities ||  [{ type: LiabilityType.PersonalLoan, amount: 0 }],
+            source_of_funds: review?.financial_status.source_of_funds || [{ type: SourceOfType.Inheritance, amount: 0 }],
+            experience: review?.financial_status.experience || Experience.LessThan5Years,
+            risk_tolerance: review?.financial_status.risk_tolerance || RiskTolerance.TenPercent,
+            net_worth: review?.financial_status.net_worth || 0,
         },
     });
 
@@ -82,7 +83,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
             userId: user.id,
             financial_status: data
         })
-        navigate(`/pages/user/pending-review`)
+        navigate(`/pages/review/pending-review`)
     }
 
     const incomes = useWatch({ control, name: "incomes" });
@@ -90,7 +91,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
     const liabilities = useWatch({ control, name: "liabilities" });
     const source_of_funds = useWatch({ control, name: "source_of_funds" });
 
-    useEffect(() => {
+    useMemo(() => {
 
         const totalIncome = incomes.reduce((acc, curr) => acc + Number(curr.amount), 0);
         const totalAssets = assets.reduce((acc, curr) => acc + Number(curr.amount), 0);
@@ -112,6 +113,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
         // }
     }, [incomes, assets, liabilities, source_of_funds, setValue]);
 
+
     return (
         <>
             <h3 className="mb-4 text-xl font-semibold dark:text-white">Finance Status</h3>
@@ -121,6 +123,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Incomes</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsIncomeCollapsed(!isIncomeCollapsed)}
                             >
@@ -175,7 +178,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendIncome({ type: IncomeType.Salary, amount: '0' })}
+                                onClick={() => appendIncome({ type: IncomeType.Salary, amount: 0 })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -190,6 +193,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Assets</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsAssetCollapsed(!isAssetCollapsed)}
                             >
@@ -245,7 +249,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendAsset({ type: AssetType.Bond, amount: '0' })}
+                                onClick={() => appendAsset({ type: AssetType.Bond, amount: 0 })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -260,6 +264,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Liabilities</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsLiablilityCollapsed(!isLiablilityCollapsed)}
                             >
@@ -314,7 +319,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendLiability({ type: LiabilityType.PersonalLoan, amount: '0' })}
+                                onClick={() => appendLiability({ type: LiabilityType.PersonalLoan, amount: 0 })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -329,6 +334,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Source Of Funds</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsSourceOfFundCollapsed(!isSourceOfFundCollapsed)}
                             >
@@ -382,7 +388,7 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                 variant="contained"
                                 color="success"
                                 type="button"
-                                onClick={() => appendSourceOfFund({ type: SourceOfType.Inheritance, amount: '0' })}
+                                onClick={() => appendSourceOfFund({ type: SourceOfType.Inheritance, amount: 0 })}
                                 className="mt-2 text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                                 disabled={disabled}
                             >
@@ -419,17 +425,20 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                                     render={({ field }) => (
                                         <RadioGroup {...field}>
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={Experience.LessThan5Years}
                                                 control={<Radio />}
                                                 label={Experience.LessThan5Years}
                                                 defaultChecked
                                             />
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={Experience.Between5And10Years}
                                                 control={<Radio />}
                                                 label={Experience.Between5And10Years}
                                             />
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={Experience.MoreThan10Years}
                                                 control={<Radio />}
                                                 label={Experience.MoreThan10Years}
@@ -448,23 +457,28 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                             <FormControl component="fieldset" error={!!errors.risk_tolerance}>
                                 <FormLabel component="legend">Risk Tolerance</FormLabel>
                                 <Controller
+
                                     rules={{ required: true }}
                                     control={control}
                                     name="risk_tolerance"
                                     render={({ field }) => (
-                                        <RadioGroup {...field}>
+                                        <RadioGroup
+                                            {...field}>
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={RiskTolerance.TenPercent}
                                                 control={<Radio />}
                                                 label={RiskTolerance.TenPercent}
                                                 defaultChecked
                                             />
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={RiskTolerance.ThirtyPercent}
                                                 control={<Radio />}
                                                 label={RiskTolerance.ThirtyPercent}
                                             />
                                             <FormControlLabel
+                                                disabled={disabled}
                                                 value={RiskTolerance.AllIn}
                                                 control={<Radio />}
                                                 label={RiskTolerance.AllIn}
@@ -478,20 +492,22 @@ const KYCForm = ({ user, disabled = false }: Props) => {
                             </FormControl>
                         </div>
                     </div>
-
-                    <div className="col-span-6 sm:col-full">
-                        <button
-                            className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            type="submit">Create Review
-                        </button>
-                        <button
-                            onClick={() => navigate(`/pages/user/`)}
-                            type="button"
-                            className="ml-1 text-white bg-zinc-700 hover:bg-zinc-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                            Cancel
-                        </button>
-                    </div>
-
+                    {
+                        !disabled && (
+                            <div className="col-span-6 sm:col-full">
+                                <button
+                                    className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    type="submit">Create Review
+                                </button>
+                                <button
+                                    onClick={() => navigate(`/pages/user/`)}
+                                    type="button"
+                                    className="ml-1 text-white bg-zinc-700 hover:bg-zinc-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    Cancel
+                                </button>
+                            </div>
+                        )
+                    }
                 </div>
             </form>
         </>

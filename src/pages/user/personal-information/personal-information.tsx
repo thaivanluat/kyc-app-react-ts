@@ -2,7 +2,11 @@ import { useParams } from "react-router";
 import NotFound from "../../common/not-found";
 import { useAppContext } from "../../../shared/hook/useAppContext";
 import EditUserForm from "../../../components/form/user-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../shared/context/Authenticated";
+import { Role } from "../../../shared/interfaces/user.interface";
+import PermissionDenied from "../../common/permission-denied";
+import { Link } from "react-router-dom";
 
 interface IFormInput {
     firstName: string
@@ -14,6 +18,11 @@ const PersonalInformation = () => {
     let { id } = useParams();
     let user = useAppContext().getUserById(id)
     let [editMode, setEditMode] = useState(true);
+    let { user: currentUser } = useAuth()
+
+    if (currentUser?.role != Role.OFFICER && user?.id != currentUser?.id) {
+        return (<PermissionDenied></PermissionDenied>)
+    }
 
     if (!user) {
         return (<NotFound></NotFound>)
@@ -43,8 +52,9 @@ const PersonalInformation = () => {
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clipRule="evenodd"></path>
                                 </svg>
-                                <a href="#"
-                                    className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Users</a>
+                                <Link to="/pages/user" className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                    Users
+                                </Link>
                             </div>
                         </li>
                         <li>

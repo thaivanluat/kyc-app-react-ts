@@ -33,8 +33,9 @@ const UserList = () => {
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clipRule="evenodd"></path>
                                 </svg>
-                                <a href="#"
-                                    className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Users</a>
+                                <Link to="/pages/user" className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                    Users
+                                </Link>
                             </div>
                         </li>
                         <li>

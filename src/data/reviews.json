@@ -2,7 +2,72 @@
     "reviews": [
         {
             "id": 1,
-            "userId": 2,
+            "user": {
+                "role": "normal",
+                "email": "user@gmail.com",
+                "password": "123456",
+                "id": 2,
+                "first_name": "Alex",
+                "middle_name": "Duo",
+                "last_name": "Black",
+                "date_of_birth": "01/01/2000 ",
+                "address": [
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street AA",
+                        "type": "Mailing"
+                    },
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street CC",
+                        "type": "Work"
+                    }
+                ],
+                "contact_information": {
+                    "emails": [
+                        {
+                            "email": "normal@gmail.com",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "email": "normal2@gmail.com",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ],
+                    "phones": [
+                        {
+                            "number": "024-222-222",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "number": "021-222-222",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ]
+                },
+                "id_document": {
+                    "id": "id.pdf",
+                    "driver_license": "driver_license.pdf"
+                },
+                "employment_information": [
+                    {
+                        "name": "Teacher",
+                        "from_year": "2020",
+                        "to_year": "2023"
+                    },
+                    {
+                        "name": "Teacher_2",
+                        "from_year": "2023",
+                        "to_year": "2024"
+                    }
+                ]
+            },
             "date": "22/12/2022",
             "status": "Approved",
             "financial_status": {
@@ -53,7 +118,72 @@
         },
         {
             "id": 2,
-            "userId": 3,
+            "user": {
+                "role": "normal",
+                "email": "user@gmail.com",
+                "password": "123456",
+                "id": 2,
+                "first_name": "Alex",
+                "middle_name": "Duo",
+                "last_name": "Black",
+                "date_of_birth": "01/01/2000 ",
+                "address": [
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street AA",
+                        "type": "Mailing"
+                    },
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street CC",
+                        "type": "Work"
+                    }
+                ],
+                "contact_information": {
+                    "emails": [
+                        {
+                            "email": "normal@gmail.com",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "email": "normal2@gmail.com",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ],
+                    "phones": [
+                        {
+                            "number": "024-222-222",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "number": "021-222-222",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ]
+                },
+                "id_document": {
+                    "id": "id.pdf",
+                    "driver_license": "driver_license.pdf"
+                },
+                "employment_information": [
+                    {
+                        "name": "Teacher",
+                        "from_year": "2020",
+                        "to_year": "2023"
+                    },
+                    {
+                        "name": "Teacher_2",
+                        "from_year": "2023",
+                        "to_year": "2024"
+                    }
+                ]
+            },
             "date": "22/12/2022",
             "status": "Pending",
             "financial_status": {
@@ -104,7 +234,72 @@
         },
         {
             "id": 3,
-            "userId": 3,
+            "user": {
+                "role": "normal",
+                "email": "user@gmail.com",
+                "password": "123456",
+                "id": 3,
+                "first_name": "Alex",
+                "middle_name": "Duo",
+                "last_name": "Black",
+                "date_of_birth": "01/01/2000 ",
+                "address": [
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street AA",
+                        "type": "Mailing"
+                    },
+                    {
+                        "country": "USA",
+                        "city": "New York",
+                        "street": "Street CC",
+                        "type": "Work"
+                    }
+                ],
+                "contact_information": {
+                    "emails": [
+                        {
+                            "email": "normal@gmail.com",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "email": "normal2@gmail.com",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ],
+                    "phones": [
+                        {
+                            "number": "024-222-222",
+                            "type": "Work",
+                            "proffered": true
+                        },
+                        {
+                            "number": "021-222-222",
+                            "type": "Personal",
+                            "proffered": false
+                        }
+                    ]
+                },
+                "id_document": {
+                    "id": "id.pdf",
+                    "driver_license": "driver_license.pdf"
+                },
+                "employment_information": [
+                    {
+                        "name": "Teacher",
+                        "from_year": "2020",
+                        "to_year": "2023"
+                    },
+                    {
+                        "name": "Teacher_2",
+                        "from_year": "2023",
+                        "to_year": "2024"
+                    }
+                ]
+            },
             "date": "22/12/2022",
             "status": "Rejected",
             "financial_status": {

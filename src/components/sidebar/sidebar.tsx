@@ -1,11 +1,13 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import React, { ReactElement } from "react";
 import { useAuth } from "../../shared/context/Authenticated";
+import { Role } from "../../shared/interfaces/user.interface";
 interface MenuItem {
     name: string;
     url: string;
 }
 const Sidebar = () => {
+    const { user } = useAuth();
     const menuItems: MenuItem[] = [
 
         {
@@ -14,11 +16,11 @@ const Sidebar = () => {
         },
         {
             name: `Pending Review`,
-            url: `user/pending-review`,
+            url: `review/pending-review`,
         },
         {
             name: `Completed Review`,
-            url: `user/completed-review`,
+            url: `review/completed-review`,
         }
     ];
     return (
@@ -32,7 +34,7 @@ const Sidebar = () => {
                         className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         <ul className="pb-2 space-y-2">
                             {
-                                menuItems.map((item: any, index: any) => (
+                                user?.role === Role.OFFICER && menuItems.map((item: any, index: any) => (
                                     <li key={index}>
                                         <NavLink
                                             end

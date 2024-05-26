@@ -1,19 +1,39 @@
-import EditUserForm from "../../../components/form/user-form";
-import { useParams } from "react-router";
-import NotFound from "../../common/not-found";
-import { useAppContext } from "../../../shared/hook/useAppContext";
-import KYCForm from "../../../components/form/kyc-form";
-import { Role } from "../../../shared/interfaces/user.interface";
+import EditUserForm from "../../components/form/user-form";
+import { useNavigate, useParams } from "react-router";
+import NotFound from "../common/not-found";
+import { useAppContext } from "../../shared/hook/useAppContext";
+import KYCForm from "../../components/form/kyc-form";
+import { Role, User } from "../../shared/interfaces/user.interface";
+import { Link } from "react-router-dom";
+import { Review, ReviewStatus } from "../../shared/interfaces/review.interface";
 
 const ReviewDetail = () => {
-
+    let review: Review | undefined;
+    let user: User | undefined;
+    const appContext = useAppContext();
+    const navigate = useNavigate();
     let { id } = useParams();
-    let user = useAppContext().getUserById(id)
 
-    if (!user || user.role === Role.OFFICER) {
-        return (<NotFound></NotFound>)
+    if (id) {
+        review = appContext.getReviewById(id)
+        user = review?.user;
+
+        if (!(review && user)) {
+            return <NotFound></NotFound>
+        }
+    } else {
+        return <NotFound></NotFound>
     }
 
+    function handleApprove(id: any) {
+        appContext.approveReview(id)
+        navigate('/pages/review/completed-review')
+    }
+
+    function handleReject(id: any) {
+        appContext.rejectReview(id)
+        navigate('/pages/review/completed-review')
+    }
 
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">
@@ -39,8 +59,9 @@ const ReviewDetail = () => {
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clipRule="evenodd"></path>
                                 </svg>
-                                <a href="#"
-                                    className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Users</a>
+                                <Link to="/pages/user" className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                    Users
+                                </Link>
                             </div>
                         </li>
                         <li>
@@ -52,7 +73,7 @@ const ReviewDetail = () => {
                                         clipRule="evenodd"></path>
                                 </svg>
                                 <span className="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
-                                    aria-current="page">Personal Information</span>
+                                    aria-current="page">Review Detail</span>
                             </div>
                         </li>
                     </ol>
@@ -96,8 +117,27 @@ const ReviewDetail = () => {
 
             <div
                 className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <KYCForm user={user} />
+                <KYCForm user={user} review={review} disabled={true} />
             </div>
+            {
+                review.status == ReviewStatus.Pending && (
+                    <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+                        <div className="px-4 py-2 flex space-x-2">
+                            <button
+                                onClick={() => handleApprove(review?.id)}
+                                type="button"
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
+                                Approve
+                            </button>
+                            <button
+                                onClick={() => handleReject(review?.id)}
+                                type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
+                                Reject
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

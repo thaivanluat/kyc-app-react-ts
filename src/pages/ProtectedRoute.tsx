@@ -15,7 +15,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, officerOnly = 
   //   return <Navigate to="/login" />;
   // }
 
-  return user ? <>{element}</> : <Navigate to="/auth/login" />;
+  return <>{element}</>;
 };
 
 export default ProtectedRoute;

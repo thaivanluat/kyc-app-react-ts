@@ -4,14 +4,15 @@ import authRoutes from "./auth/auth.routes";
 import NotFound from "./common/not-found";
 import PermissionDenied from "./common/permission-denied";
 import HomeComponent from "./home/HomeComponent";
+import reviewRoutes from "./review/review.routes";
 
 const pageRoutes = [
     {
         path: 'pages',
         element: <Pages />,
         children: [
-            ...authRoutes,
             ...userRoutes,
+            ...reviewRoutes,
             {
                 path: '',
                 element: <HomeComponent/>
@@ -27,6 +28,7 @@ const pageRoutes = [
             },
         ]
     },
+    ...authRoutes
 ]
 
 export default pageRoutes;

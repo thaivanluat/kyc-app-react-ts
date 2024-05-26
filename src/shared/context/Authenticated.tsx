@@ -1,11 +1,14 @@
 import { createContext, ReactElement, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usersData from '../../data/users.json';
+import { Role } from '../interfaces/user.interface';
+import { useLocalStorage } from '../hook/useLocalStorage';
 
 interface User {
     id: number,
     email: string;
     password: string;
+    role: string;
 }
 
 interface AuthContextProps {
@@ -25,6 +28,7 @@ const AuthenticatedProvider = ({ children }: { children: ReactElement }) => {
         );
 
         if (foundUser) {
+            setUser(foundUser)
             localStorage.setItem('user', JSON.stringify(foundUser));
         } 
 

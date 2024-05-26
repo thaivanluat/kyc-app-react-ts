@@ -17,12 +17,17 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const userJson = usersData.users;
-            const reviewJson = reviewData.reviews;
+            if (!JSON.parse(localStorage.getItem('users') as string)?.length) {
+                const userJson = usersData.users;
+                localStorage.setItem('users', JSON.stringify(userJson));
+                console.log("init data for users");
+            }
 
-            localStorage.setItem('users', JSON.stringify(userJson));
-            localStorage.setItem('reviews', JSON.stringify(reviewJson));
-            console.log("init data for localstorage");
+            if (!JSON.parse(localStorage.getItem('reviews') as string)?.length) {
+                const reviewJson = reviewData.reviews;
+                localStorage.setItem('reviews', JSON.stringify(reviewJson));
+                console.log("init data for reviews");
+            }
         };
 
         loadData();
@@ -60,6 +65,7 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
         const review = reviews.find(
             (review: Review) => review.id == id
         );
+        console.log(review);
 
         return review
     }

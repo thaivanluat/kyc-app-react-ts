@@ -66,7 +66,7 @@ export enum ReviewStatus {
 
 
 export interface Review {
-    id: any,
+    id: string|number,
     user: User|undefined,
     financial_status: FinancialStatus,
     date: string; // DD/MM/YYYY format

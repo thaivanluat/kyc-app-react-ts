@@ -1,20 +1,13 @@
 import { Link } from "react-router-dom";
-import { useAppContext } from "../../../shared/hook/useAppContext";
-import { Review, ReviewStatus } from "../../../shared/interfaces/review.interface";
-import { formatCurrency } from "../../../shared/utilities/formatCurrentcy";
+import { useAppContext } from "../../shared/hook/useAppContext";
+import { Review, ReviewStatus } from "../../shared/interfaces/review.interface";
+import { formatCurrency } from "../../shared/utilities/formatCurrentcy";
 
 const PendingReview = () => {
     const appContext = useAppContext();
     const reviews = appContext.getReviews().filter((review: Review) =>
         review.status == ReviewStatus.Pending
     )
-    function handleApproveReview(reviewId: any) {
-        appContext.approveReview(reviewId)
-    }
-
-    function handleRejectReview(reviewId: any) {
-        appContext.rejectReview(reviewId)
-    }
 
     return (
         <div className="grid grid-cols-1 px-4 pt-6 xl:gap-4 dark:bg-gray-900">
@@ -40,8 +33,9 @@ const PendingReview = () => {
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clipRule="evenodd"></path>
                                 </svg>
-                                <a href="#"
-                                    className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Users</a>
+                                <Link to="/pages/user" className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                    Users
+                                </Link>
                             </div>
                         </li>
                         <li>
@@ -74,20 +68,24 @@ const PendingReview = () => {
                     <tbody>
                         {reviews.map((review, index) => (
                             <tr key={index}>
-                                <td className="px-4 py-2 text-gray-700">{review.id}</td>
+                                <td className="px-4 py-2 text-gray-700">
+                                    <Link to={`/pages/review/${review.id}/show`}>
+                                        {review.id}
+                                    </Link>
+                                </td>
                                 <td className="px-4 py-2 text-gray-700">{review.date}</td>
                                 <td className="px-4 py-2 text-gray-700">{formatCurrency(review.financial_status.net_worth)}</td>
 
                                 <td className="px-4 py-2 flex space-x-2">
-                                    <button 
-                                    onClick={() => handleApproveReview(review.id)}
-                                    type="button" 
-                                    className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
+                                    <button
+                                        onClick={() => appContext.approveReview(review.id)}
+                                        type="button"
+                                        className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                                         Approve
                                     </button>
-                                    <button 
-                                    onClick={() => handleRejectReview(review.id)}
-                                    type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
+                                    <button
+                                        onClick={() =>  appContext.rejectReview(review.id)}
+                                        type="button" className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
                                         Reject
                                     </button>
                                 </td>

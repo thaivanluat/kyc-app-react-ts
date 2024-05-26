@@ -4,6 +4,7 @@ import NotFound from "../../common/not-found";
 import { useAppContext } from "../../../shared/hook/useAppContext";
 import KYCForm from "../../../components/form/kyc-form";
 import { Role } from "../../../shared/interfaces/user.interface";
+import { Link } from "react-router-dom";
 
 const UserKYC = () => {
 
@@ -39,8 +40,9 @@ const UserKYC = () => {
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clipRule="evenodd"></path>
                                 </svg>
-                                <a href="#"
-                                    className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Users</a>
+                                <Link to="/pages/user" className="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                    Users
+                                </Link>
                             </div>
                         </li>
                         <li>
@@ -52,7 +54,7 @@ const UserKYC = () => {
                                         clipRule="evenodd"></path>
                                 </svg>
                                 <span className="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
-                                    aria-current="page">Personal Information</span>
+                                    aria-current="page">KYC</span>
                             </div>
                         </li>
                     </ol>

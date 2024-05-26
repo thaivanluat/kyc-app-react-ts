@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "../../shared/context/Authenticated";
 import { useAppContext } from "../../shared/hook/useAppContext";
 import NotFound from "../common/not-found";

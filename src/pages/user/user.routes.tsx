@@ -1,37 +1,26 @@
-import {RouteObject} from "react-router";
+import { RouteObject } from "react-router";
 import PersonalInformation from "./personal-information/personal-information";
 import UserKYC from "./kyc/kyc";
 import User from "./user";
-import PendingReview from "./review/pending-review";
-import CompletedReview from "./review/completed-review";
 import UserList from "./list/user-list";
-import ProtectedRoute from "../ProtectedRoute";
 
 const userRoutes: RouteObject[] = [
     {
         path: 'user',
-        element: <User/>,
+        element: <User />,
         children: [
             {
                 path: '',
-                element: <UserList/>
+                element: <UserList />
             },
             {
                 path: ':id/pi',
-                element: <PersonalInformation/>
+                element: <PersonalInformation />
             },
             {
                 path: ':id/kyc',
                 element: <UserKYC></UserKYC>
             },
-            {
-                path: 'pending-review',
-                element: <PendingReview></PendingReview>
-            },
-            {
-                path: 'completed-review',
-                element: <CompletedReview></CompletedReview>
-            }
         ]
     }
 ]

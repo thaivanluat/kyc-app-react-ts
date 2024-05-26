@@ -9,7 +9,7 @@
       "middle_name": "_",
       "last_name": "_",
       "date_of_birth": "01/01/2000",
-      "address": [
+      "addresses": [
         {
           "country": "USA",
           "city": "New York",
@@ -75,7 +75,7 @@
       "middle_name": "Duo",
       "last_name": "Black",
       "date_of_birth": "01/01/2000 ",
-      "address": [
+      "addresses": [
         {
           "country": "USA",
           "city": "New York",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "role": "normal2",
+      "role": "normal",
       "email": "user2@gmail.com",
       "password": "123456",
       "id": 3,
@@ -141,7 +141,7 @@
       "middle_name": "John",
       "last_name": "White",
       "date_of_birth": "01/01/2000 ",
-      "address": [
+      "addresses": [
         {
           "country": "USA",
           "city": "New York",

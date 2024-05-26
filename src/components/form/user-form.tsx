@@ -53,11 +53,11 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
     const { register, handleSubmit, control, formState: { errors }, setValue } = useForm<IFormInput>({
         defaultValues: {
             id: user.id,
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            date_of_birth: '',
-            addresses: user.address || [{ country: '', city: '', street: '', type: '' }],
+            first_name: user.first_name || '',
+            middle_name: user.middle_name || '',
+            last_name: user.last_name || '',
+            date_of_birth: user.date_of_birth || '',
+            addresses: user.addresses || [{ country: '', city: '', street: '', type: '' }],
             contact_information: {
                 emails: user.contact_information?.emails || [{ email: '', type: '', proffered: false }],
                 phones: user.contact_information?.phones || [{ number: '', type: '', proffered: false }]
@@ -106,19 +106,20 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
         }
     }
 
-    useEffect(() => {
-        const fields = [
-            'first_name',
-            'last_name',
-            'date_of_birth'
-        ];
+    // useEffect(() => {
+    //     const fields = [
+    //         'first_name',
+    //         'last_name',
+    //         'date_of_birth'
+    //     ];
 
-        fields.forEach((field: any) => setValue(field, user[field as keyof User]));
+    //     fields.forEach((field: any) => setValue(field, user[field as keyof User]));
 
-        if (user.address) {
-            setValue("addresses", user.address);
-        }
-    }, [user, setValue]);
+    //     // if (user.address) {
+    //     //     setValue("addresses", user.address);
+    //     // }
+
+    // }, [user, setValue]);
 
     return (
         <>
@@ -213,6 +214,7 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Address</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsAddrrCollapsed(!isAddrrCollapsed)}
                             >
@@ -304,6 +306,7 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Contact Information</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsContactInfoCollapsed(!isContactInfoCollapsed)}
                             >
@@ -477,6 +480,7 @@ const EditUserForm = ({ user, onChangeEditMode, disabled = false, showButton = f
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="mb-4 text-xl font-semibold dark:text-white">Employment Information</h3>
                             <button
+                                type="button"
                                 className="bg-blue-500 text-white px-3 py-1 rounded"
                                 onClick={() => setIsEmploymentCollapsed(!isEmploymentCollapsed)}
                             >

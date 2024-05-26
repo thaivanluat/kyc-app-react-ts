@@ -58,7 +58,7 @@ export interface User {
     last_name: string;
     date_of_birth: string; // DD/MM/YYYY format
     age?: number; // Calculated
-    address: Address[];
+    addresses: Address[];
     contact_information: ContractInformation,
     id_document: IdentificationDocument;
     employment_information: Employment[];
