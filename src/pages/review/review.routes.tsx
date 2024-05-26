@@ -3,6 +3,7 @@ import PendingReview from "../review/pending-review";
 import CompletedReview from "../review/completed-review";
 import ProtectedRoute from "../ProtectedRoute";
 import ReviewDetail from "../review/review-detail";
+import { Role } from "../../shared/interfaces/user.interface";
 
 const reviewRoutes: RouteObject[] = [
     {
@@ -10,15 +11,24 @@ const reviewRoutes: RouteObject[] = [
         children: [
             {
                 path: 'pending-review',
-                element: <PendingReview></PendingReview>
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER]}>
+                    <PendingReview></PendingReview>
+                </ProtectedRoute>
             },
             {
                 path: 'completed-review',
-                element: <CompletedReview></CompletedReview>
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER]}>
+                    <CompletedReview></CompletedReview>
+                </ProtectedRoute>
             },
             {
                 path: ':id/show',
-                element: <ReviewDetail></ReviewDetail>
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER]}>
+                    <ReviewDetail></ReviewDetail>
+                </ProtectedRoute>
             }
         ]
     }

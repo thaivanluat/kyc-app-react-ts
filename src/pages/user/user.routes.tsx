@@ -3,6 +3,8 @@ import PersonalInformation from "./personal-information/personal-information";
 import UserKYC from "./kyc/kyc";
 import User from "./user";
 import UserList from "./list/user-list";
+import ProtectedRoute from "../ProtectedRoute";
+import { Role } from "../../shared/interfaces/user.interface";
 
 const userRoutes: RouteObject[] = [
     {
@@ -11,15 +13,24 @@ const userRoutes: RouteObject[] = [
         children: [
             {
                 path: '',
-                element: <UserList />
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER]}>
+                    <UserList />
+                </ProtectedRoute>
             },
             {
                 path: ':id/pi',
-                element: <PersonalInformation />
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER, Role.NORMAL_USER]}>
+                    <PersonalInformation />
+                </ProtectedRoute>
             },
             {
                 path: ':id/kyc',
-                element: <UserKYC></UserKYC>
+                element: <ProtectedRoute
+                    allowRoles={[Role.OFFICER]}>
+                    <UserKYC></UserKYC>
+                </ProtectedRoute>
             },
         ]
     }

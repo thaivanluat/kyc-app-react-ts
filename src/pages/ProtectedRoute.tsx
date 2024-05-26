@@ -2,20 +2,25 @@ import React, { ReactNode, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthenticatedContext, useAuth } from '../shared/context/Authenticated';
 import Login from './auth/login/Login';
+import PermissionDenied from './common/permission-denied';
 
 interface ProtectedRouteProps {
-  element: React.ReactNode;
-  officerOnly?: boolean;
+  children: React.ReactNode;
+  allowRoles?: string[];
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, officerOnly = false }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowRoles }) => {
   const { user } = useAuth();
 
   // if (officerOnly && user?.role !== 'officer') {
   //   return <Navigate to="/login" />;
   // }
 
-  return <>{element}</>;
+  if (allowRoles?.includes(user?.role as string)) {
+    return <>{children}</>;
+  } else {
+    return <PermissionDenied></PermissionDenied>
+  }
 };
 
 export default ProtectedRoute;

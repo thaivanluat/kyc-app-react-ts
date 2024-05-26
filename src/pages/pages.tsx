@@ -3,6 +3,7 @@ import Sidebar from "../components/sidebar/sidebar";
 import { Navigate, Outlet, useNavigate } from "react-router";
 import Footer from "../components/footer/footer";
 import {  useAuth } from "../shared/context/Authenticated";
+import { Role } from "../shared/interfaces/user.interface";
 const Pages = () => {
     const { user } = useAuth();
 
