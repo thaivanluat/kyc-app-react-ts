@@ -65,7 +65,6 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
         const review = reviews.find(
             (review: Review) => review.id == id
         );
-        console.log(review);
 
         return review
     }
@@ -90,8 +89,7 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
             status: ReviewStatus.Pending,
             financial_status: data.financial_status
         }
-        reviews.push(newReview);
-        setReviews(reviews);
+        setReviews([...reviews, newReview]);
     }
 
     function approveReview(reviewId: any) {
